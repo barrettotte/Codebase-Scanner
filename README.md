@@ -5,6 +5,7 @@ Scans ColdFusion(cftag and cfscript) and Javascript files for declared functions
 * Create some javascript test files
 * Finish javascript files --- nested js functions are giving me a little trouble
 * Add a 'GENERAL' scan to give description of codebase by each file extension (.cfc, .cfm, .css, .txt)
+* Cleanup cftag function output
 
 # Usage
 ``` ColdFusion
