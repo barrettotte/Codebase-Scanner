@@ -1,0 +1,6 @@
+<h2>Javascript Test</h2><h2>Results:</h2>        {0} character(s) total 
+        {0.000 KB} scanned
+        {0}  total file(s) scanned
+        {0} function(s) total
+        {0} line(s) total 
+---------------------------------------------------------------------------

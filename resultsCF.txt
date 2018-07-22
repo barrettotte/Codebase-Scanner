@@ -1,0 +1,79 @@
+<h2>ColdFusion Test</h2>Scanning {C:\source\cfmx\wwwroot\test\barrett\01-Basics.cfm} 
+Scanned {91} line(s), {2231} character(s), and found {0} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Application.cfc} 
+         001).          Line: 0004         public any function onRequestStart()
+Scanned {8} line(s), {79} character(s), and found {1} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Barrett-Utils.cfc} 
+         001).          Line: 0006         public void function init()
+         002).          Line: 0133         private string function stringifyStruct()
+         003).          Line: 0173         public function init()
+Scanned {179} line(s), {5269} character(s), and found {3} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\index.cfm} 
+Scanned {9} line(s), {96} character(s), and found {0} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Code-Scanner\Code-Scanner.cfc} 
+         001).          Line: 0005         public function init()
+         002).          Line: 0011         public any function scan()
+         003).          Line: 0068         private boolean function inspectOptions()
+         004).          Line: 0088         private string function getExtensions()
+         005).          Line: 0128         private string function buildTotalsOutput()
+         006).          Line: 0149         private string function findFunction()
+         007).          Line: 0174         private boolean function preSplitCheck()
+         008).          Line: 0210         private boolean function finalCheck()
+         009).          Line: 0234         private void function displayHtml()
+Scanned {245} line(s), {8782} character(s), and found {9} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Code-Scanner\index.cfm} 
+Scanned {40} line(s), {819} character(s), and found {0} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Intro-To-CF\01-Basics.cfm} 
+Scanned {91} line(s), {2231} character(s), and found {0} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Intro-To-CF\02-Decisions-and-Loops.cfm} 
+Scanned {117} line(s), {2376} character(s), and found {0} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Intro-To-CF\03-Functions-and-Components.cfm} 
+         001).          Line: 0005         cffunction name="getFullName" output="false" access="public" returnType="string"
+Scanned {25} line(s), {677} character(s), and found {1} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Intro-To-CF\04-Components.cfm} 
+Scanned {13} line(s), {308} character(s), and found {0} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Intro-To-CF\Application.cfc} 
+Scanned {5} line(s), {38} character(s), and found {0} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Intro-To-CF\Greeting.cfc} 
+         001).          Line: 0004         public string function getFullName()
+Scanned {16} line(s), {367} character(s), and found {1} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Intro-To-CF\index.cfm} 
+Scanned {6} line(s), {49} character(s), and found {0} function(s).
+
+---------------------------------------------------------------------------
+Scanning {C:\source\cfmx\wwwroot\test\barrett\Testing\PentonAPI-Testing.cfm} 
+Scanned {56} line(s), {2380} character(s), and found {0} function(s).
+
+---------------------------------------------------------------------------
+<h2>Results:</h2>        {5} .cfc files
+        {25702} character(s) total 
+        {34268 Bytes} scanned
+        {9} .cfm files
+        {14}  total file(s) scanned
+        {15} function(s) total
+        {901} line(s) total 
+---------------------------------------------------------------------------
