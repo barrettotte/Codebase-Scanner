@@ -13,56 +13,56 @@ component
             writeDump('Error found in options struct.', 'console');
             return structNew();
         }
-        local.scanResults = arrayNew(1);
-        local.dirList = arrayNew(1);
-        local.extensions = getExtensions(arguments.options.scanType);
-        local.countStruct = { 'fileCount': 0, 'totalFuncs': 0, 'totalLines': 0, 'totalChars': 0, 'totalSize': 0};
-        local.output = arguments.options.scanTitle;
-        local.result = structNew();
+        var scanResults = arrayNew(1);
+        var dirList = arrayNew(1);
+        var extensions = getExtensions(arguments.options.scanType);
+        var countStruct = { 'fileCount': 0, 'totalFuncs': 0, 'totalLines': 0, 'totalChars': 0, 'totalSize': 0};
+        var output = arguments.options.scanTitle;
+        var result = structNew();
         
         if(!arguments.options.outPath.find('.txt')){
             arguments.options.outPath = arguments.options.outPath & '.txt';
         }
-        for(local.x = 1; local.x <= ArrayLen(arguments.options.scanTarget); local.x++){
-            local.fileInfo = getFileInfo(arguments.options.scanTarget[local.x]);
-            if(local.fileInfo.type EQ 'directory'){
-                local.dirList = directoryList(arguments.options.scanTarget[local.x], 
-                    true, "path", local.extensions);
-            } else if(local.fileInfo.type EQ 'file'){
-                local.dirList.append(arguments.options.scanTarget[local.x]);
+        for(var x = 1; x <= ArrayLen(arguments.options.scanTarget); x++){
+            var fileInfo = getFileInfo(arguments.options.scanTarget[x]);
+            if(fileInfo.type EQ 'directory'){
+                dirList = directoryList(arguments.options.scanTarget[x], 
+                    true, "path", extensions);
+            } else if(fileInfo.type EQ 'file'){
+                dirList.append(arguments.options.scanTarget[x]);
             }
-            for(local.i = 1; local.i <= arrayLen(local.dirList); local.i++){
+            for(var i = 1; i <= arrayLen(dirList); i++){
                 if(arrayLen(arguments.options.excludeContaining) > 0){
-                    for(local.j = 1; local.j <= arrayLen(arguments.options.excludeContaining); local.j++){
-                        if(find(arguments.options.excludeContaining[local.j], local.dirList[local.i])){
+                    for(var j = 1; j <= arrayLen(arguments.options.excludeContaining); j++){
+                        if(find(arguments.options.excludeContaining[j], dirList[i])){
                             continue;
                         }
                     }
                 }
-                local.result = scanFile(local.dirList[i], arguments.options.showHtml);
-                local.output = local.output & local.result.output;
+                result = scanFile(dirList[i], arguments.options.showHtml);
+                output = output & result.output;
 
-                if(!structKeyExists(local.countStruct,local.result.fileExt)){
-                    structInsert(local.countStruct, local.result.fileExt, 0, false);
+                if(!structKeyExists(countStruct, result.fileExt)){
+                    structInsert(countStruct, result.fileExt, 0, false);
                 }
-                local.countStruct[local.result.fileExt]++;
-                local.countStruct.totalFuncs += local.result.funcCount;
-                local.countStruct.totalLines += local.result.lineCount;
-                local.countStruct.totalChars += local.result.charCount;
-                local.countStruct.totalSize += local.result.fileSize;
+                countStruct[result.fileExt]++;
+                countStruct.totalFuncs += result.funcCount;
+                countStruct.totalLines += result.lineCount;
+                countStruct.totalChars += result.charCount;
+                countStruct.totalSize += result.fileSize;
             }
-            local.countStruct.fileCount += arrayLen(local.dirList);
-            local.scanResults.append(local.result);
+            countStruct.fileCount += arrayLen(dirList);
+            scanResults.append(result);
         }
-        local.countStruct.totalSize = convertFileSize(local.countStruct.totalSize, arguments.options.sizeUnits);
-        local.output = local.output & buildTotalsOutput(local.countStruct) & variables.divider;
-        local.outFile = fileOpen(options.outPath, 'write');
-        fileWriteLine(local.outFile, local.output);
-        fileClose(local.outFile);
+        countStruct.totalSize = convertFileSize(countStruct.totalSize, arguments.options.sizeUnits);
+        output = output & buildTotalsOutput(countStruct) & variables.divider;
+        var outFile = fileOpen(options.outPath, 'write');
+        fileWriteLine(outFile, output);
+        fileClose(outFile);
         if(arguments.options.showHtml){
-            displayHtml(local.output);
+            displayHtml(output);
         }
-        return local.scanResults;
+        return scanResults;
     }
 
     private boolean function inspectOptions(required struct options){
@@ -95,72 +95,72 @@ component
     }
 
     private any function scanFile(required string scanTarget, required boolean showHtml){
-        local.file = fileOpen(arguments.scanTarget, 'read');
-        local.resultsStruct = { 
+        var file = fileOpen(arguments.scanTarget, 'read');
+        var resultsStruct = { 
             lineCount: 1, charCount: 0, funcCount: 0, target: arguments.scanTarget, functionArr: arrayNew(1), 
             output: "Scanning {#arguments.scanTarget#} #variables.newLine#", fileSize: getFileInfo(arguments.scanTarget).Size,
             fileExt: '.' & listLast(getFileInfo((arguments.scanTarget)).Name, '.')
         };
-        while(NOT fileIsEOF(local.file)){
-            local.line = trim(fileReadLine(local.file));
-            local.func = findFunction(local.line);
-            if(len(local.func) > 0){
-                local.resultsStruct.functionArr.append(local.func);
-                local.resultsStruct.funcCount++;
-                local.resultsStruct.output = local.resultsStruct.output &
-                    "         #numberFormat(local.resultsStruct.funcCount, '000')#). " &
-                    "         Line: #numberFormat(local.resultsStruct.lineCount, '0000')#         " &
-                    local.resultsStruct.functionArr[local.resultsStruct.funcCount] & variables.newLine;
+        while(NOT fileIsEOF(file)){
+            var line = trim(fileReadLine(file));
+            var func = findFunction(line);
+            if(len(func) > 0){
+                resultsStruct.functionArr.append(func);
+                resultsStruct.funcCount++;
+                resultsStruct.output = resultsStruct.output &
+                    "         #numberFormat(resultsStruct.funcCount, '000')#). " &
+                    "         Line: #numberFormat(resultsStruct.lineCount, '0000')#         " &
+                    resultsStruct.functionArr[resultsStruct.funcCount] & variables.newLine;
             }
-            local.resultsStruct.charCount += len(local.line);
-            local.resultsStruct.lineCount++;
+            resultsStruct.charCount += len(line);
+            resultsStruct.lineCount++;
         }
-        local.resultsStruct.output = local.resultsStruct.output &
-            "Scanned {#local.resultsStruct.lineCount#} line(s), " &
-            "{#local.resultsStruct.charCount#} character(s), and found " &
-            "{#local.resultsStruct.funcCount#}"&" function(s)."&"#variables.newLine#" &
+        resultsStruct.output = resultsStruct.output &
+            "Scanned {#resultsStruct.lineCount#} line(s), " &
+            "{#resultsStruct.charCount#} character(s), and found " &
+            "{#resultsStruct.funcCount#}"&" function(s)."&"#variables.newLine#" &
             "#variables.newLine##variables.divider##variables.newLine#";
-        fileClose(local.file);
-        local.resultsStruct.functionArr = arrayToList(local.resultsStruct.functionArr);
-        return local.resultsStruct;
+        fileClose(file);
+        resultsStruct.functionArr = arrayToList(resultsStruct.functionArr);
+        return resultsStruct;
     }
 
     private string function buildTotalsOutput(required struct countStruct){
-        local.output = '<h2>Results:</h2>';
-        for(local.countType in arguments.countStruct){
-            local.output = local.output & '        ' & '{' & arguments.countStruct[local.countType] & '} ';
-            if(find('.', local.countType)){
-                local.output = local.output & lCase(local.countType) & ' files' & variables.newLine;
+        var output = '<h2>Results:</h2>';
+        for(var countType in arguments.countStruct){
+            output = output & '        ' & '{' & arguments.countStruct[countType] & '} ';
+            if(find('.', countType)){
+                output = output & lCase(countType) & ' files' & variables.newLine;
             } else {
-                local.label = '';
-                switch(local.countType){
-                    case 'totalFuncs':  local.label = 'function(s) total';          break;
-                    case 'totalLines':  local.label = 'line(s) total ';             break;
-                    case 'totalChars':  local.label = 'character(s) total ';        break;
-                    case 'totalSize':   local.label = 'scanned';                   break;
-                    case 'fileCount':   local.label = ' total file(s) scanned';     break;
+                var label = '';
+                switch(countType){
+                    case 'totalFuncs':  label = 'function(s) total';          break;
+                    case 'totalLines':  label = 'line(s) total ';             break;
+                    case 'totalChars':  label = 'character(s) total ';        break;
+                    case 'totalSize':   label = 'scanned';                   break;
+                    case 'fileCount':   label = ' total file(s) scanned';     break;
                 }
-                local.output = local.output & local.label & variables.newLine;
+                output = output & label & variables.newLine;
             }
         }
-        return local.output;
+        return output;
     }
 
     private string function findFunction(required string line){
-        local.funcLabels = ['function', 'cffunction'];
-        local.accessTypes = ['public', 'private', 'remote'];
+        var funcLabels = ['function', 'cffunction'];
+        var accessTypes = ['public', 'private', 'remote'];
         arguments.line = trim(arguments.line);
         if(preSplitCheck(arguments.line)){
-            local.lineSplit = listToArray(arguments.line, " (){}<>");
-            for(local.i = 1; local.i <= arrayLen(local.funcLabels); local.i++){
-                local.findFunc = local.lineSplit.find(local.funcLabels[local.i]);
-                if(local.findFunc > 0){
-                    for(local.j = 1; local.j <= arrayLen(local.accessTypes); local.j++){
+            var lineSplit = listToArray(arguments.line, " (){}<>");
+            for(var i = 1; i <= arrayLen(funcLabels); i++){
+                var findFunc = lineSplit.find(funcLabels[i]);
+                if(findFunc > 0){
+                    for(var j = 1; j <= arrayLen(accessTypes); j++){
                         if(finalCheck(arguments.line)){
-                            if(local.funcLabels[local.i] == 'cffunction'){
-                                return arrayToList(local.lineSplit, " ");
+                            if(funcLabels[i] == 'cffunction'){
+                                return arrayToList(lineSplit, " ");
                             } else{
-                                local.func = mid(arguments.line, 1, findOneOf('(', arguments.line));
+                                func = mid(arguments.line, 1, findOneOf('(', arguments.line));
                                 return (len(func) > 0) ? (func & ')') : '';
                             }
                         }
@@ -172,7 +172,7 @@ component
     }
 
     private boolean function preSplitCheck(required string line){
-        local.badPieces = [
+        var badPieces = [
             '.forEach', '.each(', '.then(', 'jQuery', '(function(', '.all',
             '.race', '.resolve','.reject', 'return function', 'console.'
         ];
@@ -199,8 +199,8 @@ component
         if(local.hasFunction && local.hasFwdSlash && local.hasFwdSlash > local.hasFunction){
             return false; //get rid of comments
         }
-        for(local.i = 1; local.i <= arrayLen(local.badPieces); local.i++){
-            if(find(local.badPieces[local.i], arguments.line)){
+        for(var i = 1; i <= arrayLen(badPieces); i++){
+            if(find(badPieces[i], arguments.line)){
                 return false;
             }
         }
@@ -208,7 +208,7 @@ component
     }
 
     private boolean function finalCheck(required string line){
-        local.badChars = ['$', "'", '&', '!', '['];
+        var badChars = ['$', "'", '&', '!', '['];
         if(find('.', arguments.line) == 1){
             return false;   //get rid of JS .function() and ()
         }
@@ -223,8 +223,8 @@ component
         if(local.hasColon && local.hasQuote){
             return false;   //functions in structs
         }
-        for(local.i = 1; local.i <= arrayLen(local.badChars); local.i++){
-            if(find(local.badChars[local.i], arguments.line)){
+        for(var i = 1; i <= arrayLen(badChars); i++){
+            if(find(badChars[i], arguments.line)){
                 return false;
             }
         }
@@ -232,13 +232,13 @@ component
     }
 
     private void function displayHtml(required string output){
-        local.htmlOut = output.split(variables.newLine);
+        var htmlOut = output.split(variables.newLine);
         for(var piece in htmlOut){
-            local.piece = replace(local.piece, ' ', '&nbsp;', 'all');
-            local.piece = replace(local.piece, '{', '<b>', 'all');
-            local.piece = replace(local.piece, '}', '</b>', 'all');
-            local.piece = replace(local.piece, variables.divider, '<hr />', 'all');
-            writeOutput("#local.piece#<br />");   
+            piece = replace(piece, ' ', '&nbsp;', 'all');
+            piece = replace(piece, '{', '<b>', 'all');
+            piece = replace(piece, '}', '</b>', 'all');
+            piece = replace(piece, variables.divider, '<hr />', 'all');
+            writeOutput("#piece#<br />");   
         }
     }
 }
