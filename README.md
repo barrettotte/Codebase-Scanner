@@ -1,5 +1,9 @@
 # Codebase-Scanner
-Scans ColdFusion(cftag and cfscript) and Javascript files for declared functions. Outputs in html and/or text file the total functions found, files scanned, lines scanned.  Two sample text scans are found in **index.cfm**. The javascript one has been changed to keep company information out of it.
+
+* Scans ColdFusion(cftag and cfscript) and Javascript files for declared functions.
+* Outputs in html and/or text file the total functions found, files scanned, lines scanned.
+* Two sample text scans are found in **index.cfm**. 
+* The javascript one has been changed to keep company information out of it.
 
 # To Do
 * Create some javascript test files
